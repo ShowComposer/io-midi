@@ -10,9 +10,9 @@
     "lint": "tslint --project .",
     "lintfix": "tslint --project . --fix",
     "incDevVersion": "npm version prerelease",
-    "debug": "NODE_ENV=debug nodemon ./dist/midi.js"
+    "debug": "NODE_ENV=debug nodemon ./dist/io.js"
   },
-  "main": "./dist/midi.js",
+  "main": "./dist/io.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ShowComposer/io-midi.git"
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@hibas123/nodelogging": "^2.0.6",
-    "@showcomposer/datalib": "0.0.1-dev.13"
+    "@showcomposer/datalib": "0.0.1-dev.13",
+    "midi": "^1.0.0"
   }
 }
