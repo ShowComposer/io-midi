@@ -1,0 +1,41 @@
+{
+  "name": "@showcomposer/io-midi",
+  "version": "0.0.1-dev.0",
+  "description": "midi-io module for ShowComposer",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
+    "setup": "npm ci",
+    "lint": "tslint --project .",
+    "lintfix": "tslint --project . --fix",
+    "incDevVersion": "npm version prerelease",
+    "debug": "NODE_ENV=debug nodemon ./dist/midi.js"
+  },
+  "main": "./dist/midi.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShowComposer/io-midi.git"
+  },
+  "keywords": [
+    "ShowComposer",
+    "Libary",
+    "Networking"
+  ],
+  "author": "Marvin Gaube/ShowComposer Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShowComposer/io-midi/issues"
+  },
+  "homepage": "https://showcomposer.de",
+  "devDependencies": {
+    "@types/node": "^10.14.7",
+    "nodemon": "^1.19.0",
+    "tslint": "^5.12.0",
+    "typescript": "^3.1.1"
+  },
+  "dependencies": {
+    "@hibas123/nodelogging": "^2.0.6",
+    "@showcomposer/datalib": "0.0.1-dev.13"
+  }
+}
