@@ -26,10 +26,11 @@ export class IOMidiInput {
 		Logging.log("Created MIDI Input for " + this.midiDevice);
 		this.deviceType = this.midiDevice.split(":")[0];
 		this.devicePort = this.midiDevice.split(":")[1];
-		this.identifier = crypto.createHash("md5").update(this.midiDevice + os.hostname()).digest("hex");
+		this.identifier = crypto.createHash("md5").update(this.midiDevice + os.hostname() + "in").digest("hex");
 		data.set("io.midi." + this.identifier + ".deviceType", this.deviceType);
 		data.set("io.midi." + this.identifier + ".devicePort", this.devicePort);
 		data.set("io.midi." + this.identifier + ".host", os.hostname());
+		data.set("io.midi." + this.identifier + ".direction", "input");
 		this.midiInput.openPort(this.midiId);
 		this.midiInput.on("message", this.receive.bind(this));
 	}
@@ -37,5 +38,39 @@ export class IOMidiInput {
 	// Receive callback
 	public receive(deltaTime, message) {
 		data.set("io.midi." + this.identifier + ".raw." + message[0] + "." + message[1], message[2]);
+	}
+}
+
+export class IOMidiOutput {
+	public midiId;
+	public midiDevice;
+	public midiOutput;
+	public deviceType;
+	public devicePort;
+	public identifier;
+
+	// Constructor
+  constructor(id) {
+		this.midiOutput = new midi.Output();
+		this.midiId = id;
+		this.midiDevice = this.midiOutput.getPortName(this.midiId);
+		Logging.log("Created MIDI Input for " + this.midiDevice);
+		this.deviceType = this.midiDevice.split(":")[0];
+		this.devicePort = this.midiDevice.split(":")[1];
+		this.identifier = crypto.createHash("md5").update(this.midiDevice + os.hostname() + "out").digest("hex");
+		data.set("io.midi." + this.identifier + ".deviceType", this.deviceType);
+		data.set("io.midi." + this.identifier + ".devicePort", this.devicePort);
+		data.set("io.midi." + this.identifier + ".host", os.hostname());
+		data.set("io.midi." + this.identifier + ".direction", "output");
+		this.midiOutput.openPort(this.midiId);
+		data.subscribe("io.midi." + this.identifier + ".raw").on('data', this.onData.bind(this));
+	}
+
+	public onData(key, value) {
+		const path = key.split('.');
+		if(path.length>=6) {
+			Logging.debug("Send message to "+path[4]+","+path[5]+","+value);
+			this.midiOutput.sendMessage([path[4],path[5],value]);
+		}
 	}
 }

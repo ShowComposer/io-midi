@@ -10,7 +10,7 @@ import * as midi from "midi";
 import * as os from "os";
 
 // Import MIDI-IO-class
-import { IOMidiInput } from "./midi";
+import { IOMidiInput, IOMidiOutput } from "./midi";
 
 // Initialize globals
 // SC Data
@@ -36,6 +36,11 @@ const midiOutput = {};
 // Create all input instances
 for (let i = 0; i < inputPortCount; i++) {
 	midiInput[i] = new IOMidiInput(i);
+}
+
+// Create all output instances
+for (let i = 0; i < outputPortCount; i++) {
+	midiOutput[i] = new IOMidiOutput(i);
 }
 
 // input.on('message', (deltaTime, message) => {
